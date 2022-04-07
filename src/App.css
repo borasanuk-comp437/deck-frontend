@@ -2,11 +2,3 @@
   display: flex;
   flex-direction: column;
 }
-
-.item-tile {
-  margin-top: 5px;
-  padding: 5px;
-  background-color: lightgray;
-  border-radius: 5px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-}
