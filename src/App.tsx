@@ -1,7 +1,8 @@
 import Item, { ItemData } from "components/item/Item";
 import SuggestionTile from "components/suggestion-tile/SuggestionTile";
+import SearchBar from "components/search-bar/SearchBar";
 import React, { useEffect, useRef, useState } from "react";
-import { getSuggestions } from "services/TripService";
+import { citySearch, getSuggestions } from "services/TripService";
 import "./App.css";
 
 const App = (): JSX.Element => {
@@ -12,6 +13,7 @@ const App = (): JSX.Element => {
       block: "center",
     });
 
+  const [city, setCity] = useState<ItemData>();
   const [items, setItems] = useState<ItemData[]>([]);
   const addItem = (itemData: ItemData): void => {
     setItems([...items, itemData]);
@@ -20,13 +22,16 @@ const App = (): JSX.Element => {
   const [choices, setChoices] = useState<ItemData[]>([]);
 
   const updateChoices = (): void => {
+    if (city == null) {
+      return;
+    }
+
     let query: string = "";
     let exclude: string[] = [];
 
     if (items.length === 0) {
-      query = "48.85341,2.3488";
+      query = city.lat.toString() + "," + city.long.toString();
     } else if (items.length > 0) {
-      console.log(items[0]);
       query =
         items[items.length - 1].lat.toString() +
         "," +
@@ -40,10 +45,13 @@ const App = (): JSX.Element => {
   };
 
   useEffect(() => {
-    console.log(items);
-
     updateChoices();
   }, [items]);
+
+  useEffect(() => {
+    setItems([]);
+    updateChoices();
+  }, [city]);
 
   const showChoices = () => {
     return (
@@ -55,7 +63,7 @@ const App = (): JSX.Element => {
             onClick={() => {
               setChoices([]);
               addItem(e);
-              // updateChoices();
+              updateChoices();
             }}
           />
         ))}
@@ -66,6 +74,7 @@ const App = (): JSX.Element => {
   return (
     <>
       <div className="container py-3">
+        <SearchBar handleSelect={setCity} />
         <div className="item-list">
           {items.map((e) => (
             <Item itemData={e} key={e.place_id} />

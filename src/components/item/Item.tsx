@@ -19,15 +19,25 @@ const getStars = (rating: number): JSX.Element[] => {
   for (let i = 0; i < 5; i++) {
     if (rating >= 1) {
       stars.push(
-        <Icon.StarFill size={14} style={{ marginLeft: 1 }} color="orange" />
+        <Icon.StarFill
+          size={14}
+          key={i}
+          style={{ marginLeft: 1 }}
+          color="orange"
+        />
       );
     } else if (rating > 0) {
       stars.push(
-        <Icon.StarHalf size={14} style={{ marginLeft: 1 }} color="orange" />
+        <Icon.StarHalf
+          size={14}
+          key={i}
+          style={{ marginLeft: 1 }}
+          color="orange"
+        />
       );
     } else {
       stars.push(
-        <Icon.Star size={14} style={{ marginLeft: 1 }} color="orange" />
+        <Icon.Star size={14} key={i} style={{ marginLeft: 1 }} color="orange" />
       );
     }
     rating -= 1;
@@ -46,7 +56,7 @@ const Item = (props: ItemProps): JSX.Element => {
         <div className="item-title">{props.itemData.name}</div>
         <div className="item-desc">{props.itemData.vicinity}</div>
         <div className="d-flex">
-          {getStars(props.itemData.rating).map((e) => e)}
+          {getStars(props.itemData.rating)}
           <div className="item-reviews px-1">{props.itemData.rating}</div>
         </div>
         <div className="item-reviews mt-auto">

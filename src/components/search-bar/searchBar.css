@@ -1,0 +1,25 @@
+.search-bar-container {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.search-bar-container .search-bar {
+  width: 100%;
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.search-bar-container .search-bar-results-container {
+  padding: 2px;
+}
+
+.search-bar-results-container .search-bar-result {
+  cursor: pointer;
+  font-size: 16px;
+  margin: 5px 3px;
+  padding: 5px 7px;
+  background-color: #e6e6e6;
+  border-radius: 5px;
+}
