@@ -1,19 +1,19 @@
 import Item, { ItemData } from "components/item/Item";
 import React, { useEffect, useState } from "react";
-import {
-  getSuggestions
-} from "services/TripService";
+import { getSuggestions } from "services/TripService";
 import "./App.css";
 
 const App = (): JSX.Element => {
   const [items, setItems] = useState<ItemData[]>([
     {
       name: "Paris",
-      formatted_address: "France",
+      vicinity: "France",
       place_id: "...",
       lat: 48.85341,
       long: 2.3488,
-      photo_reference: "",
+      photo_src: undefined,
+      rating: 0,
+      user_ratings_total: 0,
     },
   ]);
   const addItem = (itemData: ItemData): void => {
@@ -23,17 +23,17 @@ const App = (): JSX.Element => {
   const [choices, setChoices] = useState<ItemData[]>([
     {
       name: "Loading",
-      formatted_address: "...",
+      vicinity: "...",
       place_id: "...",
       lat: 48.85341,
       long: 2.3488,
-      photo_reference: "",
+      photo_src: "",
+      rating: 0,
+      user_ratings_total: 0,
     },
   ]);
 
   const updateChoices = (): void => {
-    console.log(items.map((e) => e.place_id));
-
     getSuggestions(
       items[0].lat.toString() + "," + items[0].long.toString(),
       items.map((e) => e.place_id)
@@ -41,7 +41,6 @@ const App = (): JSX.Element => {
   };
 
   useEffect(() => {
-    console.log("trigger");
     updateChoices();
   }, [items]);
 
@@ -58,7 +57,7 @@ const App = (): JSX.Element => {
             }}
           >
             <div className="item-title">{e.name}</div>
-            <div className="item-desc">{e.formatted_address}</div>
+            <div className="item-desc">{e.vicinity}</div>
           </div>
         ))}
       </div>

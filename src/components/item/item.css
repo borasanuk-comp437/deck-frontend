@@ -1,15 +1,38 @@
 .item-tile-container {
   margin-top: 5px;
-  padding: 5px 10px;
+  display: flex;
   background-color: #f0f0f0;
   border-radius: 5px;
-  font-family: sans-serif;
+  font-family: "Montserrat", sans-serif;
+}
+
+.item-details-container {
+  padding: 8px 10px 5px;
+  display: flex;
+  flex-direction: column;
+
 }
 
 .item-title {
   font-size: 16px;
+  line-height: 16px;
+  font-weight: 600;
 }
 
 .item-desc {
   font-size: 14px;
+}
+
+.item-reviews {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  color: gray;
+}
+
+.item-photo {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 5px 0 0 5px;
 }
