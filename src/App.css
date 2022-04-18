@@ -3,19 +3,9 @@
   flex-direction: column;
 }
 
-.suggestion-container {
+.suggestions-container {
   display: flex;
   gap: 5px;
-  
+  height: 200px;
 }
 
-.suggestion-tile {
-  cursor: pointer;
-  height: 100px;
-  flex: 1 1 0px;
-  background-color: #387dff;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-family: sans-serif;
-}

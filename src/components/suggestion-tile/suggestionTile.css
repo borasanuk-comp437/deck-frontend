@@ -1,0 +1,53 @@
+.suggestion-tile-container {
+  cursor: pointer;
+  position: relative;
+  height: 150px;
+  display: flex;
+  flex: 1 1 0px;
+  background-color: lightgray;
+  color: #fff;
+  border-radius: 5px;
+  font-family: sans-serif;
+}
+
+.suggestion-tile-container .suggestion-tile-img {
+  border-radius: 5px;
+  height: 150px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.suggestion-tile-container .suggestion-tile-details {
+  position: absolute;
+  bottom: 0;
+  z-index: 99;
+  padding: 5px;
+  border-radius: 0 0 5px 5px;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+  width: 100%;
+  height: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.suggestion-tile-details .suggestion-tile-details-title {
+  margin-bottom: 5px;
+  display: flex;
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+.suggestion-tile-details .suggestion-tile-details-desc {
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: bold;
+}

@@ -1,9 +1,17 @@
 import Item, { ItemData } from "components/item/Item";
-import React, { useEffect, useState } from "react";
+import SuggestionTile from "components/suggestion-tile/SuggestionTile";
+import React, { useEffect, useRef, useState } from "react";
 import { getSuggestions } from "services/TripService";
 import "./App.css";
 
 const App = (): JSX.Element => {
+  const suggestionsRef = useRef<HTMLDivElement>(null);
+  const scrollToSuggestions = () =>
+    suggestionsRef.current!.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+
   const [items, setItems] = useState<ItemData[]>([
     {
       name: "Paris",
@@ -37,7 +45,10 @@ const App = (): JSX.Element => {
     getSuggestions(
       items[0].lat.toString() + "," + items[0].long.toString(),
       items.map((e) => e.place_id)
-    ).then((e) => setChoices(e));
+    ).then((e) => {
+      setChoices(e);
+      scrollToSuggestions();
+    });
   };
 
   useEffect(() => {
@@ -46,19 +57,16 @@ const App = (): JSX.Element => {
 
   const showChoices = () => {
     return (
-      <div className="suggestion-container">
+      <div className="suggestions-container" ref={suggestionsRef}>
         {choices.map((e) => (
-          <div
-            className="suggestion-tile"
+          <SuggestionTile
+            itemData={e}
             onClick={() => {
               setChoices([]);
               addItem(e);
               // updateChoices();
             }}
-          >
-            <div className="item-title">{e.name}</div>
-            <div className="item-desc">{e.vicinity}</div>
-          </div>
+          />
         ))}
       </div>
     );
@@ -74,6 +82,17 @@ const App = (): JSX.Element => {
         </div>
         <div className="py-1"></div>
         {showChoices()}
+        <div className="py-5"></div>
+        <div className="py-5"></div>
+        <div className="py-5"></div>
+        <div className="py-5"></div>
+        <div className="py-5"></div>
+        <div className="py-5"></div>
+        <div className="py-5"></div>
+        <div className="py-5"></div>
+        <div className="py-5"></div>
+        <div className="py-5"></div>
+        <div className="py-5"></div>
       </div>
     </>
   );
