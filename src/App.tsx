@@ -12,46 +12,36 @@ const App = (): JSX.Element => {
       block: "center",
     });
 
-  const [items, setItems] = useState<ItemData[]>([
-    {
-      name: "Paris",
-      vicinity: "France",
-      place_id: "...",
-      lat: 48.85341,
-      long: 2.3488,
-      photo_src: undefined,
-      rating: 0,
-      user_ratings_total: 0,
-    },
-  ]);
+  const [items, setItems] = useState<ItemData[]>([]);
   const addItem = (itemData: ItemData): void => {
     setItems([...items, itemData]);
   };
 
-  const [choices, setChoices] = useState<ItemData[]>([
-    {
-      name: "Loading",
-      vicinity: "...",
-      place_id: "...",
-      lat: 48.85341,
-      long: 2.3488,
-      photo_src: "",
-      rating: 0,
-      user_ratings_total: 0,
-    },
-  ]);
+  const [choices, setChoices] = useState<ItemData[]>([]);
 
   const updateChoices = (): void => {
-    getSuggestions(
-      items[0].lat.toString() + "," + items[0].long.toString(),
-      items.map((e) => e.place_id)
-    ).then((e) => {
+    let query: string = "";
+    let exclude: string[] = [];
+
+    if (items.length === 0) {
+      query = "48.85341,2.3488";
+    } else if (items.length > 0) {
+      console.log(items[0]);
+      query =
+        items[items.length - 1].lat.toString() +
+        "," +
+        items[items.length - 1].long.toString();
+      exclude = items.map((e) => e.place_id);
+    }
+    getSuggestions(query, exclude).then((e) => {
       setChoices(e);
       scrollToSuggestions();
     });
   };
 
   useEffect(() => {
+    console.log(items);
+
     updateChoices();
   }, [items]);
 
@@ -60,6 +50,7 @@ const App = (): JSX.Element => {
       <div className="suggestions-container" ref={suggestionsRef}>
         {choices.map((e) => (
           <SuggestionTile
+            key={e.place_id}
             itemData={e}
             onClick={() => {
               setChoices([]);
@@ -77,7 +68,7 @@ const App = (): JSX.Element => {
       <div className="container py-3">
         <div className="item-list">
           {items.map((e) => (
-            <Item itemData={e} />
+            <Item itemData={e} key={e.place_id} />
           ))}
         </div>
         <div className="py-1"></div>

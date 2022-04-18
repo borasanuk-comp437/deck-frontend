@@ -30,9 +30,11 @@ export const getSuggestions = async (
   const data = await response.json();
   for (let item of data) {
     item.photo_src = getPhotoSrc(item.photos[0].photo_reference);
+    item.lat = item.geometry.location.lat
+    item.long = item.geometry.location.lng
   }
-  console.log(data);
   
+
   return data;
 };
 
