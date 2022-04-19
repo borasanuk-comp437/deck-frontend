@@ -1,14 +1,15 @@
 import Item, { ItemData } from "components/item/Item";
-import SuggestionTile from "components/suggestion-tile/SuggestionTile";
 import SearchBar from "components/search-bar/SearchBar";
+import SuggestionTile from "components/suggestion-tile/SuggestionTile";
 import React, { useEffect, useRef, useState } from "react";
-import { citySearch, getSuggestions } from "services/TripService";
+import { Spinner } from "react-bootstrap";
+import { getSuggestions } from "services/TripService";
 import "./App.css";
 
 const App = (): JSX.Element => {
-  const suggestionsRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const scrollToSuggestions = () =>
-    suggestionsRef.current!.scrollIntoView({
+    scrollRef.current!.scrollIntoView({
       behavior: "smooth",
       block: "center",
     });
@@ -55,18 +56,28 @@ const App = (): JSX.Element => {
 
   const showChoices = () => {
     return (
-      <div className="suggestions-container" ref={suggestionsRef}>
-        {choices.map((e) => (
-          <SuggestionTile
-            key={e.place_id}
-            itemData={e}
-            onClick={() => {
-              setChoices([]);
-              addItem(e);
-              updateChoices();
-            }}
-          />
-        ))}
+      <div className="suggestions-container">
+        {choices.length === 0 ? (
+          items.length === 0 ? (
+            <></>
+          ) : (
+            <div className="align-self-center">
+              <Spinner animation="border"></Spinner>
+            </div>
+          )
+        ) : (
+          choices.map((e) => (
+            <SuggestionTile
+              key={e.place_id}
+              itemData={e}
+              onClick={() => {
+                setChoices([]);
+                addItem(e);
+                updateChoices();
+              }}
+            />
+          ))
+        )}
       </div>
     );
   };
@@ -82,17 +93,7 @@ const App = (): JSX.Element => {
         </div>
         <div className="py-1"></div>
         {showChoices()}
-        <div className="py-5"></div>
-        <div className="py-5"></div>
-        <div className="py-5"></div>
-        <div className="py-5"></div>
-        <div className="py-5"></div>
-        <div className="py-5"></div>
-        <div className="py-5"></div>
-        <div className="py-5"></div>
-        <div className="py-5"></div>
-        <div className="py-5"></div>
-        <div className="py-5"></div>
+        <div className="py-5" ref={scrollRef}></div>
       </div>
     </>
   );
