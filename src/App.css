@@ -1,3 +1,10 @@
+.deck-container {
+  background-color: #013242;
+  width: 100%;
+  min-height: 100%;
+  position: absolute;
+}
+
 .item-list {
   display: flex;
   flex-direction: column;
@@ -9,4 +16,3 @@
   gap: 5px;
   height: 200px;
 }
-

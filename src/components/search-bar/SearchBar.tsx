@@ -6,7 +6,7 @@ import { citySearch } from "services/TripService";
 import "./searchBar.css";
 
 interface SearchBarProps {
-  handleSelect: Function;
+  handleSelect: (e: ItemData) => void;
 }
 
 const SearchBar = (props: SearchBarProps): JSX.Element => {

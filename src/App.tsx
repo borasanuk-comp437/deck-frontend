@@ -3,7 +3,7 @@ import SearchBar from "components/search-bar/SearchBar";
 import SuggestionTile from "components/suggestion-tile/SuggestionTile";
 import React, { useEffect, useRef, useState } from "react";
 import { Spinner } from "react-bootstrap";
-import { getSuggestions } from "services/TripService";
+import { getInitialSuggestions, getSuggestions } from "services/TripService";
 import "./App.css";
 
 const App = (): JSX.Element => {
@@ -22,37 +22,28 @@ const App = (): JSX.Element => {
 
   const [choices, setChoices] = useState<ItemData[]>([]);
 
-  const updateChoices = (): void => {
-    if (city == null) {
-      return;
-    }
-
-    let query: string = "";
-    let exclude: string[] = [];
-
-    if (items.length === 0) {
-      query = city.lat.toString() + "," + city.long.toString();
-    } else if (items.length > 0) {
-      query =
-        items[items.length - 1].lat.toString() +
-        "," +
-        items[items.length - 1].long.toString();
-      exclude = items.map((e) => e.place_id);
-    }
-    getSuggestions(query, exclude).then((e) => {
+  const updateChoicesForCity = (city: ItemData): void => {
+    let query = city.lat.toString() + "," + city.long.toString();
+    getInitialSuggestions(query).then((e) => {
       setChoices(e);
       scrollToSuggestions();
     });
   };
 
-  useEffect(() => {
-    updateChoices();
-  }, [items]);
-
-  useEffect(() => {
-    setItems([]);
-    updateChoices();
-  }, [city]);
+  const updateChoices = (newItems: ItemData[]): void => {
+    let query: string = "";
+    let exclude: string[] = [];
+    query =
+      newItems[newItems.length - 1].lat.toString() +
+      "," +
+      newItems[newItems.length - 1].long.toString();
+    exclude = newItems.map((e) => e.place_id);
+    let base: string = exclude[exclude.length - 1];
+    getSuggestions(query, exclude, base).then((e) => {
+      setChoices(e);
+      scrollToSuggestions();
+    });
+  };
 
   const showChoices = () => {
     return (
@@ -73,7 +64,7 @@ const App = (): JSX.Element => {
               onClick={() => {
                 setChoices([]);
                 addItem(e);
-                updateChoices();
+                updateChoices([...items, e]);
               }}
             />
           ))
@@ -83,9 +74,14 @@ const App = (): JSX.Element => {
   };
 
   return (
-    <>
+    <div className="deck-container">
       <div className="container py-3">
-        <SearchBar handleSelect={setCity} />
+        <SearchBar
+          handleSelect={(e) => {
+            setCity(e);
+            updateChoicesForCity(e);
+          }}
+        />
         <div className="item-list">
           {items.map((e) => (
             <Item itemData={e} key={e.place_id} />
@@ -95,7 +91,7 @@ const App = (): JSX.Element => {
         {showChoices()}
         <div className="py-5" ref={scrollRef}></div>
       </div>
-    </>
+    </div>
   );
 };
 
