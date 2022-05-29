@@ -11,6 +11,8 @@ export type ItemData = {
   photo_src: string | undefined;
   rating: number;
   user_ratings_total: number;
+  url: string;
+  type: string[];
 };
 
 const getStars = (rating: number): JSX.Element[] => {
