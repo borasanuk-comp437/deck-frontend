@@ -10,7 +10,7 @@ interface SuggestionTileProps {
 
 const SuggestionTile = (props: SuggestionTileProps): JSX.Element => {
   return (
-    <div className="suggestion-tile-container" onClick={() => props.onClick()}>
+    <div className="suggestion-tile-container">
       <img
         src={props.itemData.photo_src}
         className="suggestion-tile-img"
@@ -18,6 +18,17 @@ const SuggestionTile = (props: SuggestionTileProps): JSX.Element => {
       />
       <div className="suggestion-tile-buttons-container">
         <button className="suggestion-tile-icon-button">
+          <a
+            href={props.itemData.url}
+            target="_blank"
+            rel="noreferrer"
+            style={{ fontSize: 16, textAlign: "center", color: "white", textDecoration: "underline"}}
+          >
+            View on<br />Google Maps
+          </a>
+        </button>
+        <div className="py-2"></div>
+        <button className="suggestion-tile-icon-button" onClick={() => props.onClick()}>
           <i className="bi bi-plus-circle"></i>
         </button>
       </div>
