@@ -64,13 +64,13 @@
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 10px 0;
+  padding-left: 10px;
   gap: 5px;
-  background-color: #ffffff60;
-  -webkit-backdrop-filter: saturate(100%) blur(5px);
-  backdrop-filter: saturate(100%) blur(5px);
+  background-color: #00000060;
+  -webkit-backdrop-filter: saturate(180%) blur(5px);
+  backdrop-filter: saturate(180%) blur(5px);
 }
 
 .suggestion-tile-buttons-container:hover {
@@ -81,7 +81,11 @@
   display: flex;
   background: none;
   color: #fff;
-  font-size: 40px;
+  font-size: 16px;
   font-weight: bold;
   border: 0;
+}
+
+.suggestion-tile-buttons-container a {
+  text-decoration: none;
 }

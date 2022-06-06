@@ -23,6 +23,10 @@ const App = (): JSX.Element => {
     setItems([...items, itemData]);
   };
 
+  const deleteItem = (item: ItemData) => {
+    setItems(items.filter((e) => e !== item));
+  };
+
   const reset = () => {
     setCity(undefined);
     setItems([]);
@@ -78,7 +82,10 @@ const App = (): JSX.Element => {
   };
 
   const handleSelect = (selected: ItemData) => {
-    if (!choiceLock) {
+    if (!choiceLock || choices.length > 15) {
+      setChoices(choices.filter((e) => e !== selected));
+      const _items = [...items, selected];
+      setItems(_items);
       return;
     }
     setChoiceLock(false);
@@ -86,6 +93,10 @@ const App = (): JSX.Element => {
     setItems(_items);
     addChoices(Array(3).fill(undefined), _items);
     getNewChoices([...choices, ..._items], _items);
+  };
+
+  const handleRemove = (choice: ItemData) => {
+    setChoices(choices.filter((e) => e !== choice));
   };
 
   const showChoices = () => {
@@ -109,8 +120,11 @@ const App = (): JSX.Element => {
                   <SuggestionTile
                     key={e.place_id}
                     itemData={e}
-                    onClick={() => {
+                    handleSelect={() => {
                       handleSelect(e);
+                    }}
+                    handleRemove={() => {
+                      handleRemove(e);
                     }}
                   />
                 );
@@ -128,11 +142,12 @@ const App = (): JSX.Element => {
         {city ? (
           <div className="d-flex justify-content-between align-items-center">
             <h1 style={{ color: "white" }}>{city.name}</h1>
-            <i
-              className="bi bi-arrow-counterclockwise"
-              style={{ color: "white", fontSize: 20, cursor: "pointer" }}
-              onClick={() => reset()}
-            ></i>
+            <div style={{ color: "white", fontSize: 16, cursor: "pointer" }}>
+              <i
+                className="bi bi-arrow-counterclockwise"
+                onClick={() => reset()}
+              ></i> Reset
+            </div>
           </div>
         ) : (
           <SearchBar
@@ -142,12 +157,15 @@ const App = (): JSX.Element => {
             }}
           />
         )}
+        <h3 style={{ color: "white" }}>My List</h3>
         <div className="item-list">
           {items.map((e) => (
-            <Item itemData={e} key={e.place_id} />
+            <Item itemData={e} key={e.place_id} onRemove={deleteItem} />
           ))}
         </div>
         <div className="py-1"></div>
+        <div className="py-2"></div>
+        <h3 style={{ color: "white" }}>Suggestions</h3>
         {showChoices()}
         <div className="py-5" ref={scrollRef}></div>
       </div>

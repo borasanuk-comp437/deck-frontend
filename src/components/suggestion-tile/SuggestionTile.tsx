@@ -5,7 +5,8 @@ import * as Icon from "react-bootstrap-icons";
 
 interface SuggestionTileProps {
   itemData: ItemData;
-  onClick: Function;
+  handleSelect: Function;
+  handleRemove: Function;
 }
 
 const SuggestionTile = (props: SuggestionTileProps): JSX.Element => {
@@ -18,18 +19,30 @@ const SuggestionTile = (props: SuggestionTileProps): JSX.Element => {
       />
       <div className="suggestion-tile-buttons-container">
         <button className="suggestion-tile-icon-button">
+          <i className="bi bi-info-circle me-2"></i>
           <a
             href={props.itemData.url}
             target="_blank"
             rel="noreferrer"
-            style={{ fontSize: 16, textAlign: "center", color: "white", textDecoration: "underline"}}
+            style={{ color: "white" }}
           >
-            View on<br />Google Maps
+            Details
           </a>
         </button>
-        <div className="py-2"></div>
-        <button className="suggestion-tile-icon-button" onClick={() => props.onClick()}>
-          <i className="bi bi-plus-circle"></i>
+        <div className="py-4"></div>
+        <button
+          className="suggestion-tile-icon-button"
+          onClick={() => props.handleSelect()}
+        >
+          <i className="bi bi-plus-circle me-2"></i>
+          Add to my list
+        </button>
+        <button
+          className="suggestion-tile-icon-button"
+          onClick={() => props.handleRemove(props.itemData)}
+        >
+          <i className="bi bi-dash-circle me-2"></i>
+          Dismiss
         </button>
       </div>
       <div className="suggestion-tile-details">

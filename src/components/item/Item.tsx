@@ -48,12 +48,15 @@ const getStars = (rating: number): JSX.Element[] => {
 };
 interface ItemProps {
   itemData: ItemData;
+  onRemove: (item: ItemData) => void;
 }
 
 const Item = (props: ItemProps): JSX.Element => {
   return (
     <div className="item-tile-container">
-      <img className="item-photo" src={props.itemData.photo_src} alt="" />
+      <a href={props.itemData.url} target="_blank" rel="noreferrer">
+        <img className="item-photo" src={props.itemData.photo_src} alt="" />
+      </a>
       <div className="item-details-container">
         <div className="item-title">{props.itemData.name}</div>
         <div className="item-desc">{props.itemData.vicinity}</div>
@@ -65,6 +68,10 @@ const Item = (props: ItemProps): JSX.Element => {
           {props.itemData.user_ratings_total + " reviews"}
         </div>
       </div>
+      <i
+        className="bi bi-x-lg my-auto ms-auto me-4"
+        onClick={() => props.onRemove(props.itemData)}
+      ></i>
     </div>
   );
 };
