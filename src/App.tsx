@@ -104,7 +104,7 @@ const App = (): JSX.Element => {
       <div className="d-flex flex-column">
         <div className="suggestions-container">
           {choices.length === 0 ? (
-            items.length === 0 ? (
+            city === undefined ? (
               <></>
             ) : (
               <div className="align-self-center">
@@ -142,11 +142,11 @@ const App = (): JSX.Element => {
         {city ? (
           <div className="d-flex justify-content-between align-items-center">
             <h1 style={{ color: "white" }}>{city.name}</h1>
-            <div style={{ color: "white", fontSize: 16, cursor: "pointer" }}>
-              <i
-                className="bi bi-arrow-counterclockwise"
-                onClick={() => reset()}
-              ></i> Reset
+            <div
+              style={{ color: "white", fontSize: 16, cursor: "pointer" }}
+              onClick={() => reset()}
+            >
+              <i className="bi bi-arrow-counterclockwise"></i> Reset
             </div>
           </div>
         ) : (
@@ -157,8 +157,12 @@ const App = (): JSX.Element => {
             }}
           />
         )}
+        <div className="py-3"></div>
         <h3 style={{ color: "white" }}>My List</h3>
         <div className="item-list">
+          {items.length === 0 && city !== undefined && (
+            <div style={{ color: "white" }}>Add an item...</div>
+          )}
           {items.map((e) => (
             <Item itemData={e} key={e.place_id} onRemove={deleteItem} />
           ))}
